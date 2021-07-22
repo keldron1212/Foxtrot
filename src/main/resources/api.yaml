@@ -1,0 +1,341 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Foxtrot API'
+paths:
+  /trainings:
+    post:
+      tags:
+        - 'trainings'
+      summary: 'Registers a new training'
+      requestBody:
+        description: 'Training object to be registered'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingCreationDto'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+    get:
+      tags:
+        - "trainings"
+      summary: 'Returns trainings. If called by admin'
+      parameters:
+        - in: query
+          name: trainingId
+          schema:
+            type: integer
+          required: false
+      responses:
+        '200':
+          description: 'Returns info on trainings. Passing training ID as query param return info on the given training. If the caller has admin rights, additional data is returned'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+  /venues:
+    post:
+      tags:
+        - 'venues'
+      summary: 'Registers a new venue'
+      requestBody:
+        description: 'Venue object to be registered'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VenueCreationDto'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+    get:
+      tags:
+        - 'venues'
+      summary: 'Returns all venues'
+      responses:
+        '200':
+          description: 'Successful operation. Returns array of venues in Info object field'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+  /users:
+    post:
+      tags:
+        - 'users'
+      summary: 'Registers a new user'
+      requestBody:
+        description: 'User object to be registered'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreationDto'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+    get:
+      tags:
+        - 'users'
+      summary: 'Returns data of users. Passing username parameter returns data of specified user only'
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '403':
+          description: 'Forbidden. Returned when non admin user tries to get info of another user'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+    put:
+      tags:
+        - 'users'
+      summary: 'Modifies name and surname of user'
+      requestBody:
+        description: 'Modified User object'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModificationDto'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '403':
+          description: 'Forbidden, returned when user tries to modify data of another user.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+  /users/trainings:
+    post:
+      tags:
+        - 'users/trainings'
+      summary: 'Registers logged user to training'
+      parameters:
+        - in: query
+          name: trainingId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+    delete:
+      tags:
+        - 'users/trainings'
+      summary: 'Deregisters logged user from training'
+      parameters:
+        - in: query
+          name: trainingId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+components:
+  schemas:
+    TrainingCreationDto:
+      type: 'object'
+      properties:
+        name:
+          type: 'string'
+          example: 'Java in Action'
+        trainingType:
+          type: 'string'
+          example: "CLASSROOM"
+        trainer:
+          type: 'object'
+          example: {
+            "username": "MikeTyson"
+          }
+        venueId:
+          type: 'integer'
+          example: 3
+    Info:
+      type: 'object'
+      properties:
+        key:
+          type: 'string'
+          description: 'Event uuid'
+        infoCode:
+          type: 'string'
+          description: 'Info code enum'
+        desc:
+          type: 'string'
+          description: 'More precise description of what happened'
+        ok:
+          type: 'boolean'
+          description: 'returns false if any error happened'
+        object:
+          type: "object"
+          description: "Queried objects"
+    VenueCreationDto:
+      type: 'object'
+      properties:
+        name:
+          type: 'string'
+          example: 'classrom a'
+        location:
+          type: 'string'
+          example: 'Raczkiewicza 17'
+    UserCreationDto:
+      type: 'object'
+      properties:
+        username:
+          type: 'string'
+          example: 'user2'
+        password:
+          type: 'string'
+          example: 'pass'
+        name:
+          type: 'string'
+          example: 'Badaś'
+        surname:
+          type: 'string'
+          example: 'Myszanski'
+    UserModificationDto:
+      type: 'object'
+      properties:
+        username:
+          type: 'string'
+          example: 'user2'
+        name:
+          type: 'string'
+          example: 'Badaś'
+        surname:
+          type: 'string'
+          example: 'Myszanski'
