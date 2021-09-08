@@ -1,5 +1,6 @@
 package com.keldron.foxtrot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.keldron.foxtrot.model.trainings.Training;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +36,7 @@ public class User implements UserDetails, CredentialsContainer {
     private Set<AuthorityRole> authorities = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnoreProperties("users")
     @JoinTable(
             name = "users_trainings",
             joinColumns = @JoinColumn(name = "user_username"),

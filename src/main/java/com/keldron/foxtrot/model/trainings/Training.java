@@ -1,5 +1,6 @@
 package com.keldron.foxtrot.model.trainings;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.keldron.foxtrot.model.User;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Training {
     @ManyToOne(fetch = FetchType.EAGER)
     private User trainer;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("trainings")
     private Set<User> participants;
     private TrainingType trainingType;
     @ManyToOne(fetch = FetchType.EAGER)
