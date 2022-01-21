@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <title>Spring Security Example</title>
-</head>
-<body>
-<h1>Welcome!</h1>
+    <head>
 
-<p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
-</body>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
+        <!-- default header name is X-CSRF-TOKEN -->
+        <!--<meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+
+        <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">-->
+
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <!--<link href="../static/css/main.css" th:href="@{css/main.css}" rel="stylesheet" media="screen"/>-->
+        <link href="../static/css/login.css" th:href="@{css/login.css}" rel="stylesheet" media="screen"/>
+
+        <title>Spring Security Example</title>
+    </head>
+    <body>
+        <div class="wrapper">
+
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <img th:src="@{/img/Logo-Foxtrot.png}" id="logo" alt="Logo" style="height: 150px; margin-bottom: 10px"/>
+            </div>
+
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <h1>Welcome!</h1>
+
+                <p>Click <a th:href="@{/hello}" style="color: #337ab7; text-decoration: underline; font-size: 17px;">here</a> login or register.</p>
+            </div>
+
+            <!--<h1>Welcome!</h1>
+
+            <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>-->
+        </div>
+    </body>
 </html>

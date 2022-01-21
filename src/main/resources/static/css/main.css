@@ -1,0 +1,13 @@
+body {
+	background-color: #ddd;
+}
+
+.main {
+	background-color: white;
+}
+
+.nav-pills>li>a.active {
+	background-color: #eee;
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+}

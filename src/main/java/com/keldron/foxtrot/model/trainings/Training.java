@@ -1,12 +1,15 @@
 package com.keldron.foxtrot.model.trainings;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.keldron.foxtrot.model.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "training")
@@ -20,16 +23,20 @@ public class Training {
     private LocalDateTime endDate;
     private BigDecimal price;
     private int maxRegistrations;
+    
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("trainings")
     private User trainer;
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("trainings")
-    private Set<User> participants;
+    private List<User> participants;
+    
     private TrainingType trainingType;
     @ManyToOne(fetch = FetchType.EAGER)
     private Venue venue;
 
-    //Empty non-arg contructor required by JPA
+	//Empty non-arg contructor required by JPA
     public Training() {
     }
 
@@ -42,7 +49,7 @@ public class Training {
         this.trainer = trainer;
         this.trainingType = trainingType;
         this.venue = venue;
-        this.participants = new HashSet<>();
+        this.participants = new ArrayList<>();
     }
 
     public Long getId() {
@@ -97,11 +104,15 @@ public class Training {
         this.trainer = trainer;
     }
 
-    public Set<User> getParticipants() {
-        return participants;
-    }
+    public List<User> getParticipants() {
+		return participants;
+	}
 
-    public void addParticipant(User participant) {
+	public void setParticipants(List<User> participants) {
+		this.participants = participants;
+	}
+
+	public void addParticipant(User participant) {
         this.participants.add(participant);
         participant.getTrainings().add(this);
     }

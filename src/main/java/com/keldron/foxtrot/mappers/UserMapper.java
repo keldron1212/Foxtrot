@@ -2,6 +2,7 @@ package com.keldron.foxtrot.mappers;
 
 import com.keldron.foxtrot.Utils;
 import com.keldron.foxtrot.dto.NewUserDto;
+import com.keldron.foxtrot.dto.UpdateUserDto;
 import com.keldron.foxtrot.dto.UserDto;
 import com.keldron.foxtrot.model.AuthorityRole;
 import com.keldron.foxtrot.model.User;
@@ -14,9 +15,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserMapper {
-    public static User toPrivilegedUser(NewUserDto dto) {
+    public static User toPrivilegedUser(UpdateUserDto dto) {
 
-        String password = Utils.encodePassword(dto.getPassword());
+//        String password = Utils.encodePassword(dto.getPassword());
+        String password = dto.getPassword();
         Set<AuthorityRole> authorities = toAuthorities(dto.getAuthorities());
 
         return new User(dto.getUsername(), password, dto.getName(), dto.getSurname(), authorities);

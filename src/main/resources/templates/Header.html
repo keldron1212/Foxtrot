@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div th:fragment="header">
+
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="/hello">All Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/trainings-list">Trainings</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                <a class="nav-link" href="/venues-list">Venues</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/my-trainings">My Trainings</a>
+            </li>
+        </ul>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+
+            var userInfo = /*[[${#authentication.principal}]]*/ null;
+            var authorities = /*[[${#authentication.authorities}]]*/ ['default'];
+
+            function hasAdminRights() {
+                let response = false;
+
+                if (authorities.indexOf("ADMIN") !== -1) {
+                    response = true;
+                }
+
+                return response;
+            }
+
+            /*]]>*/
+        </script>
+    </div>
+
+</html>

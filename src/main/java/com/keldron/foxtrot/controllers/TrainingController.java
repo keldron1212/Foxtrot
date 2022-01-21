@@ -8,6 +8,7 @@ import com.keldron.foxtrot.model.AuthorityRole;
 import com.keldron.foxtrot.repositories.service.DataAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class TrainingController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/trainings", method = RequestMethod.POST)
+    @RequestMapping(value = "/trainings", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Info> createNewTraining(@RequestBody NewTrainingDto training) {
         Info result = service.createTraining(training);
         return Info.getInfoResponseEntity(result, HttpStatus.OK, HttpStatus.BAD_REQUEST);
@@ -41,7 +42,7 @@ public class TrainingController {
             Info result = service.getTraining(trainingId, isAdmin);
             return Info.getInfoResponseEntity(result, HttpStatus.OK, HttpStatus.BAD_REQUEST);
         }
-        Info result = service.getTrainings(true);
+        Info result = service.getTrainings(isAdmin);
         return Info.getInfoResponseEntity(result, HttpStatus.OK, HttpStatus.BAD_REQUEST);
     }
 }

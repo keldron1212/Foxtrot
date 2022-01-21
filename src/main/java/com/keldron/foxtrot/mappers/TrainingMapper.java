@@ -7,15 +7,18 @@ import com.keldron.foxtrot.model.trainings.Training;
 import com.keldron.foxtrot.model.trainings.TrainingType;
 import com.keldron.foxtrot.model.trainings.Venue;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TrainingMapper {
 
     public static TrainingDto toTrainingDto(Training training) {
-        Set<User> participants = training.getParticipants();
+        List<User> participants = training.getParticipants();
 
-        Set<String> participantsIds = participants.stream().map(User::getName).collect(Collectors.toUnmodifiableSet());
+        Set<String> participantsIds = participants.stream().map(User -> {
+    		return User.getName() != null ? User.getName() : (User.getUsername());
+    	}).collect(Collectors.toUnmodifiableSet());
 
         TrainingDto.TrainingDtoBuilder builder = new TrainingDto.TrainingDtoBuilder();
         return builder.withId(training.getId()).withName(training.getName()).withEndDate(training.getEndDate())

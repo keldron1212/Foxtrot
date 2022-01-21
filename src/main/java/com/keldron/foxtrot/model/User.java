@@ -7,8 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name="user")
@@ -36,19 +39,19 @@ public class User implements UserDetails, CredentialsContainer {
     private Set<AuthorityRole> authorities = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JsonIgnoreProperties("users")
+    @JsonIgnoreProperties({ "trainer" , "participants"})
     @JoinTable(
             name = "users_trainings",
             joinColumns = @JoinColumn(name = "user_username"),
             inverseJoinColumns = @JoinColumn(name = "training_id")
     )
-    private Set<Training> trainings;
+    private List<Training> trainings;
 
     //Public non-argument contructor required by JPA
     public User() {
     }
 
-    public User(String username, String password, String name, String surname, Set<AuthorityRole> grantedAuthorities) {
+	public User(String username, String password, String name, String surname, Set<AuthorityRole> grantedAuthorities) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -58,7 +61,7 @@ public class User implements UserDetails, CredentialsContainer {
         this.credentialsNonExpired = true;
         this.enabled = true;
         this.accountNonLocked = true;
-        this.trainings = new HashSet<>();
+        this.trainings = new ArrayList<>();
     }
 
     @Override
@@ -145,9 +148,13 @@ public class User implements UserDetails, CredentialsContainer {
         this.surname = surname;
     }
 
-    public Set<Training> getTrainings() {
+    public List<Training> getTrainings() {
         return trainings;
     }
+
+    public void setTrainings(List<Training> trainings) {
+		this.trainings = trainings;
+	}
 
     public void addTraining(Training training) {
         this.trainings.add(training);

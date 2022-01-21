@@ -15,12 +15,14 @@ import com.keldron.foxtrot.repositories.trainings.TrainingRepository;
 import com.keldron.foxtrot.repositories.users.UserRepository;
 import com.keldron.foxtrot.repositories.venues.VenueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 //data persistence logic
 @Service
@@ -146,7 +148,7 @@ public class DataAccessService implements UserDetailsService {
     }
 
     //Allows to change all User information. For ROLE_ADMIN only!
-    public Info adminUpdate(NewUserDto userDto) {
+    public Info adminUpdate(UpdateUserDto userDto) {
         Optional<User> optUser = userRepository.findByUsername(userDto.getUsername());
 
         if (optUser.isEmpty()) {
@@ -154,6 +156,14 @@ public class DataAccessService implements UserDetailsService {
                     .setDescription("Trying to update non-existing user").build();
         }
 
+        userDto.setPassword(optUser.get().getPassword());
+        
+        Set<String> authorities = optUser.get().getAuthorities().stream().map(str -> {
+        	String[] splitted = str.getAuthority().split("_");
+        	return splitted[1];
+        }).collect(Collectors.toUnmodifiableSet());
+        
+        userDto.setAuthorities(authorities);
         User updateUser = UserMapper.toPrivilegedUser(userDto);
         userRepository.save(updateUser);
 
@@ -220,6 +230,7 @@ public class DataAccessService implements UserDetailsService {
             }
         });
 
+        
         return new Info.InfoBuilder().setInfoCode(APIInfoCodes.OK).setDescription("Trainings found").setObject(trainingDtos).build();
     }
 

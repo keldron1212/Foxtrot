@@ -8,6 +8,8 @@ public class VenueDto {
     private String name;
     private String location;
 
+    public VenueDto() {}
+    
     public VenueDto(Long id, String name, String location) {
         this.id = id;
         this.name = name;

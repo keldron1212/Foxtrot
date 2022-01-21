@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <!--&lt;!&ndash; default header name is X-CSRF-TOKEN &ndash;&gt;-->
+    <!--<meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">-->
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <link href="../static/css/main.css" th:href="@{css/main.css}" rel="stylesheet" media="screen"/>
+
+    <title>Hello World!</title>
+</head>
+<body>
+    <!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+
+
+    <form method="post" th:action="@{/logout}">
+        <input type="submit" value="Sign Out"/>
+    </form>-->
+
+    <div th:replace="top-bar :: top-bar"> </div>
+
+
+
+
+    <div class="container main">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="/hello">All Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/add-user">Add New</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/trainings-list">Trainings</a>
+            </li>
+        </ul>
+        <div class="row">
+            <div class="col-sm-12" style="padding: 5px 25px; border-radius:3px">
+                <h3>Add new User</h3>
+                <form id="add_new_user" th:action="@{/users}">
+                    <!--<input type="hidden" id= "csrf-token" th:name="${_csrf.parameterName}" th:content="${_csrf.token}" />-->
+                    <div class="form-group">
+                        <label class="control-label" for="username">Username:</label>
+                        <input type="text" class="form-control" id="username"
+                               placeholder="Enter First Name" name="username" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password:</label>
+                        <input type="password" class="form-control" id="password"
+                               placeholder="Enter First Name" name="password" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="name">Name:</label>
+                        <input type="text" class="form-control" id="name"
+                               placeholder="Enter First Name" name="name" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="surname">Surname:</label>
+                        <input type="text" class="form-control" id="surname"
+                               placeholder="Enter Last Name" name="surname" required></input>
+                    </div>
+                    <button type="submit" class="btn btn-danger" id="btn-add-new-user">Save</button>
+                </form>
+                <div id="response" style="display:none; margin-top:10px">
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>-->
+<script type="text/javascript" src="../static/js/add-user.js" th:src="@{js/add-user.js}"></script>
+
+</body>
+</html>

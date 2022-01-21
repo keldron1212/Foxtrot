@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
+        <!-- default header name is X-CSRF-TOKEN -->
+        <!--<meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+
+        <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">-->
+
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <link href="../static/css/main.css" th:href="@{css/main.css}" rel="stylesheet" media="screen"/>
+
+        <title>Hello World!</title>
+    </head>
+    <body>
+        <!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+
+
+        <form method="post" th:action="@{/logout}">
+            <input type="submit" value="Sign Out"/>
+        </form>-->
+
+        <div th:replace="top-bar :: top-bar"> </div>
+
+        <div class="alert alert-success" id="success-alert" style="position: absolute;top: 70px;right: 25px;display: none">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Success!</strong>
+            <span id="success-training-name"></span> have been linked.
+        </div>
+        <div class="alert alert-danger" id="failed-alert" style="position: absolute;top: 70px;right: 25px;display: none">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Failed!</strong>
+            <span id="failed-training-name"></span> failed to link.
+        </div>
+
+
+        <div class="container main">
+
+            <div th:replace="header :: header"> </div>
+
+            <div id="div_trainings_table">
+                <h1>Trainings</h1>
+
+                <a sec:authorize="hasAuthority('ROLE_ADMIN')" href="/add-training" class="btn btn-primary">Add New</a>
+
+                <div class="row col-md-12 table-responsive">
+                    <table id="trainingsTable" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Price</th>
+                            <th>Max Registrations</th>
+                            <th>Trainer</th>
+                            <th sec:authorize="hasAuthority('ROLE_ADMIN')">Participants</th>
+                            <th>Training Type</th>
+                            <th>Venue</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>-->
+        <script type="text/javascript" src="../static/js/get-trainings.js" th:src="@{js/get-trainings.js}"></script>
+
+    </body>
+</html>

@@ -1,17 +1,24 @@
 package com.keldron.foxtrot.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NewTrainingDto {
         private Long id;
         private String name;
+        
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime startDate;
+        
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime endDate;
         private BigDecimal price;
         private int maxRegistrations;
@@ -19,7 +26,8 @@ public class NewTrainingDto {
         private String trainingType;
         private Long venueId;
 
-    @JsonCreator
+    public NewTrainingDto() {}
+        
     public NewTrainingDto(Long id, String name, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, int maxRegistrations, UserDto trainer, String trainingType, Long venueId) {
         this.id = id;
         this.name = name;

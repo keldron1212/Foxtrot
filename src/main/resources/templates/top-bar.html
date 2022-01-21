@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div th:fragment="top-bar">
+
+        <nav class="navbar navbar-light bg-light" style="background-color: #97979a;height: 55px;margin-bottom: 50px;box-shadow: 0 1px 14px 0 rgb(0 0 0 / 20%);">
+            <div class="container">
+                <a class="navbar-left" href="#">
+                    <img th:src="@{/img/Logo-Foxtrot-New.png}" alt="" style="height: 70px; margin-top: -9px;">
+                </a>
+                <div class="navbar-right">
+                    <h4 class="pull-left" th:inline="text" style="margin: 16px;">
+                        Hello [[${#httpServletRequest.remoteUser}]]!
+                    </h4>
+                    <form class="pull-right" method="post" th:action="@{/logout}">
+                        <input type="submit" class="btn btn-primary" value="Sign Out" style="margin-top: 8px;"/>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+
+</html>

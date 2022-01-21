@@ -13,6 +13,8 @@ public class UserDto {
     private Set<String> authorities;
     private Set<Long> trainings;
 
+    public UserDto() {}
+    
     public UserDto(String username, String name, String surname, Set<String> authorities, Set<Long> trainings) {
         this.username = username;
         this.name = name;

@@ -2,6 +2,7 @@ package com.keldron.foxtrot.controllers;
 
 import com.keldron.foxtrot.Utils;
 import com.keldron.foxtrot.dto.NewUserDto;
+import com.keldron.foxtrot.dto.UpdateUserDto;
 import com.keldron.foxtrot.dto.UserDto;
 import com.keldron.foxtrot.info.Info;
 import com.keldron.foxtrot.repositories.service.DataAccessService;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class UserController {
@@ -42,15 +46,16 @@ public class UserController {
 
     //Registers new user
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<Info> registerNewUser(@RequestBody NewUserDto newUserDto) {
+    public ResponseEntity<Info> registerNewUser(@ModelAttribute NewUserDto newUserDto, HttpServletResponse response) throws IOException {
         Info result = dataAccessService.registerNewUser(newUserDto);
+        response.sendRedirect("/home");
         return Info.getInfoResponseEntity(result, HttpStatus.CREATED, HttpStatus.BAD_REQUEST);
     }
 
     //Updates user info
     @RequestMapping(value = "/users", method = RequestMethod.PUT)
     public ResponseEntity<Info> registerNewUser(@RequestBody UserDto userDto, Authentication authentication) {
-        if (isNotTheSameUser(userDto.getName(), authentication.getName())) {
+        if (isNotTheSameUser(userDto.getUsername(), authentication.getName())) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
 
@@ -72,7 +77,7 @@ public class UserController {
 
     //Allows admin to modify all user information
     @RequestMapping(value = "/admin/users", method = RequestMethod.PUT)
-    public ResponseEntity<Info> updateUserByAdmin(@RequestBody NewUserDto newUserDto) {
+    public ResponseEntity<Info> updateUserByAdmin(@RequestBody UpdateUserDto newUserDto) {
         Info result = dataAccessService.adminUpdate(newUserDto);
         return Info.getInfoResponseEntity(result, HttpStatus.CREATED, HttpStatus.BAD_REQUEST);
     }
