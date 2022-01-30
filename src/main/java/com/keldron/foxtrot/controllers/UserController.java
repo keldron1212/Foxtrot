@@ -63,7 +63,7 @@ public class UserController {
         return Info.getInfoResponseEntity(result, HttpStatus.CREATED, HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
     public ResponseEntity<Info> deleteUser(@RequestBody String username, Authentication authentication) {
         if (isNotTheSameUser(username, authentication.getName())) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
