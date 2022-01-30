@@ -24,7 +24,7 @@ public class TrainingMapper {
         return builder.withId(training.getId()).withName(training.getName()).withEndDate(training.getEndDate())
                 .withStartDate(training.getStartDate()).withMaxRegistrations(training.getMaxRegistrations())
                 .withPrice(training.getPrice()).withTrainingType(training.getTrainingType()).withVenue(VenueMapper.toDto(training.getVenue()))
-                .withTrainer(UserMapper.toDto(training.getTrainer())).withParticipants(participantsIds).build();
+                .withTrainer(UserMapper.toDto(training.getTrainer())).withParticipants(participantsIds).SetStatus(training.getStartDate(), training.getEndDate()).build();
     }
 
     public static TrainingDto toUsersTrainingDto(Training training) {

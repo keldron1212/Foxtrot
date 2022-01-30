@@ -20,6 +20,7 @@ public class TrainingDto {
     private Set<String> participants;
     private String trainingType;
     private VenueDto venue;
+    private String trainingStatus;
 
     public TrainingDto() {}
 
@@ -61,6 +62,10 @@ public class TrainingDto {
 
     public VenueDto getVenue() {
         return venue;
+    }
+
+    public String getTrainingStatus() {
+        return trainingStatus;
     }
 
     public static class TrainingDtoBuilder {
@@ -118,6 +123,18 @@ public class TrainingDto {
 
         public TrainingDtoBuilder withVenue(VenueDto venue) {
             trainingDto.venue = venue;
+            return this;
+        }
+
+        public TrainingDtoBuilder SetStatus(LocalDateTime startDate, LocalDateTime endDate) {
+            LocalDateTime now = LocalDateTime.now();
+            if (startDate.isBefore(now) && endDate.isAfter(now)) {
+                trainingDto.trainingStatus = TrainingStatus.IN_PROGRESS.toString();
+            } else if (endDate.isBefore(now)) {
+                trainingDto.trainingStatus = TrainingStatus.ENDED.toString();
+            } else {
+                trainingDto.trainingStatus = TrainingStatus.OPEN.toString();
+            }
             return this;
         }
 

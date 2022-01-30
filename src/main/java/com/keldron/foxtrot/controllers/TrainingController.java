@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class TrainingController {
 
@@ -35,6 +37,16 @@ public class TrainingController {
             return findTraining(trainingId, true);
         }
         return findTraining(trainingId, false);
+    }
+
+    @RequestMapping(value = "/trainings", method = RequestMethod.DELETE)
+    public ResponseEntity<Info> deleteTraining(@RequestParam Long trainingId, Authentication authentication) {
+        if (Utils.hasAdminRights(authentication)) {
+            Info result = service.deleteTraining(trainingId);
+            return Info.getInfoResponseEntity(result, HttpStatus.OK, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Info>(HttpStatus.FORBIDDEN);
     }
 
     private ResponseEntity<Info> findTraining(Long trainingId, boolean isAdmin) {

@@ -15,12 +15,14 @@ import com.keldron.foxtrot.repositories.trainings.TrainingRepository;
 import com.keldron.foxtrot.repositories.users.UserRepository;
 import com.keldron.foxtrot.repositories.venues.VenueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -226,7 +228,10 @@ public class DataAccessService implements UserDetailsService {
             if(isAdmin) {
                 trainingDtos.add(TrainingMapper.toTrainingDto(t));
             } else {
-                trainingDtos.add(TrainingMapper.toUsersTrainingDto(t));
+                //Ensures user will see only available courses
+                if (!t.getStartDate().isBefore(LocalDateTime.now())) {
+                    trainingDtos.add(TrainingMapper.toUsersTrainingDto(t));
+                }
             }
         });
 
@@ -268,6 +273,34 @@ public class DataAccessService implements UserDetailsService {
     }
 
     private Info getOKInfo() {
+        return new Info.InfoBuilder().setInfoCode(APIInfoCodes.OK).build();
+    }
+
+    public Info deleteTraining(Long trainingId) {
+        Optional<Training> optTraining = trainingRepository.findById(trainingId);
+
+        if (optTraining.isEmpty()) {
+            return new Info.InfoBuilder().setInfoCode(APIInfoCodes.TRAINING_NOT_FOUND)
+                    .setDescription("Training does not exists").build();
+        }
+
+        Training training = optTraining.get();
+        trainingRepository.delete(training);
+
+        return new Info.InfoBuilder().setInfoCode(APIInfoCodes.OK).build();
+    }
+
+    public Info deleteUser(String username) {
+        Optional<User> optUser = userRepository.findById(username);
+
+        if (optUser.isEmpty()) {
+            return new Info.InfoBuilder().setInfoCode(APIInfoCodes.USERNAME_NOT_FOUND)
+                    .setDescription("User does not exists").build();
+        }
+
+        User user = optUser.get();
+        userRepository.delete(user);
+
         return new Info.InfoBuilder().setInfoCode(APIInfoCodes.OK).build();
     }
 }

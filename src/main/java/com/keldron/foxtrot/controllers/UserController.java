@@ -63,6 +63,16 @@ public class UserController {
         return Info.getInfoResponseEntity(result, HttpStatus.CREATED, HttpStatus.BAD_REQUEST);
     }
 
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    public ResponseEntity<Info> deleteUser(@RequestBody String username, Authentication authentication) {
+        if (isNotTheSameUser(username, authentication.getName())) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+
+        Info result = dataAccessService.deleteUser(username);
+        return Info.getInfoResponseEntity(result, HttpStatus.OK, HttpStatus.BAD_REQUEST);
+    }
+
     @RequestMapping(value = "/users/trainings", method = RequestMethod.POST)
     public ResponseEntity<Info> registerUserToTraining(@RequestParam Long trainingID, Authentication authentication) {
         Info result = dataAccessService.registerToTraining(authentication.getName(), trainingID);

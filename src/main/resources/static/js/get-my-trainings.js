@@ -48,7 +48,8 @@ $(document).ready(function(){
                     }
 
                     trainingRow += '<td>' + training.trainingType + '</td>' +
-                        '<td>' + training.venue.name + '</td>';
+                        '<td>' + training.venue.name + '</td>' +
+                        '<td>' + training.trainingStatus + '</td>';
 
                     let unlinkButton = "<button data-toggle='modal' data-target='#unlink-training-modal' " +
                         "class='btn btn-primary btn-unlink-training' id='unlink-" + trainingId + "'>Unlink</button>";
